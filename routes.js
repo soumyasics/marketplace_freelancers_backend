@@ -6,5 +6,8 @@ router.post('/freelancerRegistration',freelancer.upload,freelancer.freelancerReg
 router.post('/getAllFreelancers',freelancer.getAllFreelancers)
 router.post('/getFreelancerById/:id',freelancer.getFreelancerById)
 router.post('/loginFreelancer',freelancer.loginFreelancer)
+router.post('/editFreelancerById/:id',freelancer.editFreelancerById)
+router.post('/deleteFreelancerById/:id',freelancer.deleteFreelancerById)
+router.post('/forgotPwd',freelancer.forgotPwd)
 
 module.exports=router
