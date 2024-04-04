@@ -56,7 +56,47 @@ const getFreelancerById = async (req, res) => {
 };
 
 
+//Login Artist 
+const loginFreelancer=(req,res)=>{
+    const email=req.body.email
+    const password=req.body.password
+  
+    Freelancer.findOne({email:email}).exec().then(data=>{
+        if(!data){
+            return res.json({
+                status:405,
+      msg:"User not found",
+            })
+        }else if(password==data.password){
+            return  res.json({
+          status:200,
+          msg:"Login successfully",
+          data:data
+      })
+    }else{
+        return  res.json({
+        status:500,
+        msg:"password Mismatch",
+        
+    })
+    }
+    
+  }).catch(err=>{
+  res.json({
+      status:500,
+      msg:"User not found",
+      Error:err
+  })
+  })
+    };
+  
+  
+  //Login Artist --finished
+  
+  
+
 module.exports = {freelancerRegistration,
     getAllFreelancers,
     getFreelancerById,
-    upload};
+    upload,
+loginFreelancer};
