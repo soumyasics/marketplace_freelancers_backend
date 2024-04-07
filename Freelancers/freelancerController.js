@@ -18,7 +18,7 @@ const freelancerRegistration = async (req, res) => {
   const { email } = req.body;
   const existingFreelancer = await Freelancer.findOne({ email });
   if (existingFreelancer) {
-    return res.status(400).json({ message: "Email id already exists" });
+    return res.status(400).json({ message: "Email id already taken" });
   }
   try {
     const freelancer = await new Freelancer({
