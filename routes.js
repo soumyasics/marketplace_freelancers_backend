@@ -6,7 +6,7 @@ const user = require('./User/userController');
 router.post('/freelancerRegistration',freelancer.upload,freelancer.freelancerRegistration)
 router.post('/freelancerLogin',freelancer.loginFreelancer)
 router.post('/editFreelancerById/:id',freelancer.editFreelancerById)
-router.post('/getAllFreelancers',freelancer.getAllFreelancers)
+router.get('/getAllFreelancers',freelancer.getAllFreelancers)
 router.post('/getFreelancerById/:id',freelancer.getFreelancerById)
 router.post('/deleteFreelancerById/:id',freelancer.deleteFreelancerById)
 router.post('/forgotPwd',freelancer.forgotPwd)

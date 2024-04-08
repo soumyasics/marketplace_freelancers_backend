@@ -44,7 +44,7 @@ const freelancerRegistration = async (req, res) => {
 const getAllFreelancers = async (req, res) => {
   try {
     const freelancers = await Freelancer.find({});
-    res.status(200).json(freelancers);
+    res.status(200).json({ message: "All freelancers", data: freelancers });
   } catch (error) {
     res.status(500).json(error);
   }
@@ -55,11 +55,11 @@ const getFreelancerById = async (req, res) => {
   try {
     const freelancer = await Freelancer.findById(_id);
     if (!freelancer) {
-      return res.status(404).json(null);
+      return res.status(404).json({ message: "Freelancer not found." });
     }
-    res.status(200).send(freelancer);
+    res.status(200).send({ data: freelancer, message: "Freelancer found." });
   } catch (error) {
-    res.status(500).json(error);
+    res.status(500).json({ error: error.message });
   }
 };
 
