@@ -5,7 +5,7 @@ const workRequestSchema = new Schema(
     userId: {
       type: Schema.Types.ObjectId,
       required: true,
-      ref: "users"
+      ref: "users",
     },
     title: {
       type: String,
@@ -16,8 +16,8 @@ const workRequestSchema = new Schema(
       required: true,
     },
     category: {
-        type: String,
-        required: true,
+      type: String,
+      required: true,
     },
     budget: {
       type: Number,
@@ -29,21 +29,28 @@ const workRequestSchema = new Schema(
       enum: ["pending", "progress", "cancelled", "completed"],
       default: "pending",
     },
-    responses: [{
-        freelancerName: String,
+    freelancerResponses: [
+      {
         freelancerId: {
-            type: Schema.Types.ObjectId,
-            ref: "freelancers"
-        }, 
-        message: String, 
-        userReplay: {
-            message: String,
-            createdAt: {
-                type: Date,
-                default: Date.now()
-            }
-        }
-    }]
+          type: Schema.Types.ObjectId,
+          ref: "freelancers",
+        },
+        message: String,
+        createdAt: {
+          type: Date,
+          default: Date.now(),
+        },
+      },
+    ],
+    userReplays: [
+      {
+        message: String,
+        createdAt: {
+          type: Date,
+          default: Date.now(),
+        },
+      },
+    ],
   },
   { timestamps: true }
 );
