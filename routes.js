@@ -16,6 +16,7 @@ router.post('/forgotPwd',freelancer.forgotPwd)
 // user routes
 router.post('/userRegistration',user.userRegistration)
 router.post('/userLogin',user.userLogin)
+router.post('/getAllUsers',user.getAllusers)
 
 // user work requst routs
 router.post('/createWorkRequest',workRequest.createWorkRequest)
@@ -25,7 +26,7 @@ router.patch('/makeWorkRequestPending/:id', workRequest.makeWorkRequestPending);
 router.patch('/makeWorkRequestProgress/:id', workRequest.makeWorkRequestProgress);
 router.patch('/makeWorkRequestCompleted/:id', workRequest.makeWorkRequestCompleted);
 router.patch('/makeWorkRequestCancelled/:id', workRequest.makeWorkRequestCancelled);
-router.patch('/workRequestFreelancerResponse/:id', workRequest.workRequestFreelancerResponse);
-router.patch('/workRequestUserReplay/:id', workRequest.workRequestUserReplay);
+router.post('/workRequestFreelancerResponse/:id', workRequest.workRequestFreelancerResponse);
+router.post('/workRequestUserReplay/:id', workRequest.workRequestUserReplay);
 
 module.exports=router
