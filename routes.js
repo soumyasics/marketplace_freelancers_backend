@@ -1,7 +1,9 @@
+
 const express = require("express");
 const router = express.Router();
 const freelancer = require("./Freelancers/freelancerController");
 const user = require("./User/userController");
+const Payments = require('./Payments/paymentController');
 const workRequest = require("./userWorkRequest/workRequestController");
 // freelancer routes
 router.post(
@@ -15,6 +17,7 @@ router.get("/getAllFreelancers", freelancer.getAllFreelancers);
 router.post("/getFreelancerById/:id", freelancer.getFreelancerById);
 router.post("/deleteFreelancerById/:id", freelancer.deleteFreelancerById);
 router.post("/forgotPwd", freelancer.forgotPwd);
+
 
 // user routes
 router.post("/userRegistration", user.userRegistration);
@@ -45,8 +48,14 @@ router.post(
 );
 router.post("/workRequestUserReplay/:id", workRequest.workRequestUserReplay);
 
-//Handling all wrong routes & this routes should be placed at last 
+
+
+//payments
+router.post('/addPayment',Payments.addPayment)
+router.post('/viewPaymentById/:paymentId',Payments.viewPayment)
+
 router.all("/*", (req, res) => {
   res.status(400).send({ message: "Please check api routes" });
 });
 module.exports = router;
+
