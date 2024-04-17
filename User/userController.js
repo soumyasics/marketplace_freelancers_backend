@@ -30,7 +30,7 @@ const userRegistration = async (req, res) => {
 const getAllusers = async (req, res) => {
   try {
     const users = await user.find({});
-    res.status(200).json(users);
+    res.status(200).json({ data: users });
   } catch (error) {
     res.status(500).json(error);
   }
