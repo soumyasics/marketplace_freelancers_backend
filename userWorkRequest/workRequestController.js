@@ -2,14 +2,11 @@ const WorkRequestModel = require("./workRequestSchema");
 
 const createWorkRequest = async (req, res) => {
   try {
-    const { userId, title, description, category, budget } = req.body;
+    const { userId, title, description, category, budget, deadline } = req.body;
     if (!userId || !title || !description || !category || !budget || !deadline) {
       return res.status(401).json({ message: "All fields are required" });
     }
 
-    if (deadline < Date.now()) {
-      return res.status(401).json({ message: "Deadline cannot be in the past" });
-    }
 
     if (budget <= 0) {
       return res.status(401).json({ message: "Budget cannot be negative or zero" });
@@ -33,9 +30,28 @@ const createWorkRequest = async (req, res) => {
   }
 };
 
+const getWorkRequestByUserId = async (req, res) => {
+  const userId = req.params.id;
+  if (!userId || userId === "undefined" || userId.length !== 24) {
+    return res.status(401).json({ message: "Id is required" });
+  }
+  try {
+    const workRequest = await WorkRequestModel.find({ userId });
+    if (!workRequest) {
+      return res.status(404).json({ message: "Work request can't find" });
+    }
+    return res
+      .status(200)
+      .json({ message: "Work request found", data: workRequest });
+  } catch (error) {
+    console.log("Error on get work request by id", error);
+    return res.status(500).json({ error });
+  }
+}
+
 const getAllWorkRequest = async (req, res) => {
   try {
-    const workRequests = await WorkRequestModel.find({});
+    const workRequests = await WorkRequestModel.find({}).populate("userId");
     return res
       .status(200)
       .json({ message: "All work requests", data: workRequests });
@@ -52,7 +68,7 @@ const getWorkRequestById = async (req, res) => {
   }
 
   try {
-    const workRequest = await WorkRequestModel.findById(id);
+    const workRequest = await WorkRequestModel.findById(id).populate("userId");
     if (!workRequest) {
       return res.status(404).json({ message: "Work request can't find" });
     }
@@ -226,5 +242,5 @@ module.exports = {
   makeWorkRequestCompleted,
   makeWorkRequestCancelled,
   workRequestFreelancerResponse,
-  workRequestUserReplay,
+  workRequestUserReplay,getWorkRequestByUserId
 };
