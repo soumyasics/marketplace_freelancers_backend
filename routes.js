@@ -2,6 +2,8 @@ const express=require('express')
 const router=express.Router()
 const freelancer=require('./Freelancers/freelancerController')
 const user = require('./User/userController');
+const Payments = require('./Payments/paymentController');
+
 const workRequest = require('./userWorkRequest/workRequestController');
 // freelancer routes 
 router.post('/freelancerRegistration',freelancer.upload,freelancer.freelancerRegistration)
@@ -29,4 +31,8 @@ router.patch('/makeWorkRequestCancelled/:id', workRequest.makeWorkRequestCancell
 router.post('/workRequestFreelancerResponse/:id', workRequest.workRequestFreelancerResponse);
 router.post('/workRequestUserReplay/:id', workRequest.workRequestUserReplay);
 
+
+//payments
+router.post('/addPayment',Payments.addPayment)
+router.post('/viewPaymentById/:paymentId',Payments.viewPayment)
 module.exports=router
