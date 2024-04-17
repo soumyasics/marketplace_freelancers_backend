@@ -1,15 +1,24 @@
 const WorkRequestModel = require("./workRequestSchema");
 
-const createWorkRequest = async () => {
+const createWorkRequest = async (req, res) => {
   try {
     const { userId, title, description, category, budget } = req.body;
-    if (!userId || !title || !description || !category || !budget) {
+    if (!userId || !title || !description || !category || !budget || !deadline) {
       return res.status(401).json({ message: "All fields are required" });
+    }
+
+    if (deadline < Date.now()) {
+      return res.status(401).json({ message: "Deadline cannot be in the past" });
+    }
+
+    if (budget <= 0) {
+      return res.status(401).json({ message: "Budget cannot be negative or zero" });
     }
 
     const workRequest = new WorkRequestModel({
       userId,
       title,
+      deadline,
       description,
       category,
       budget,
@@ -38,7 +47,7 @@ const getAllWorkRequest = async (req, res) => {
 
 const getWorkRequestById = async (req, res) => {
   const id = req.params.id;
-  if (!id) {
+  if (!id || id === "undefined" || id.length !== 24) {
     return res.status(401).json({ message: "Id is required" });
   }
 
@@ -163,7 +172,9 @@ const workRequestFreelancerResponse = async (req, res) => {
       freelancerId,
       message,
     };
-    workRequest.freelancerResponses.push(newResponse);
+    let responseArr = [...workRequest.freelancerResponses, newResponse];
+    workRequest.freelancerResponses = responseArr;
+    await workRequest.save();
     return res
       .status(200)
       .json({ message: "Response added successfully", data: workRequest });
@@ -181,9 +192,7 @@ const workRequestUserReplay = async (req, res) => {
   }
   const { message } = req.body;
   if (!message) {
-    return res
-      .status(401)
-      .json({ message: "message is required" });
+    return res.status(401).json({ message: "message is required" });
   }
   try {
     const workRequest = await WorkRequestModel.findById(id);
@@ -192,10 +201,11 @@ const workRequestUserReplay = async (req, res) => {
     }
 
     const newResponse = {
-      freelancerId,
       message,
     };
-    workRequest.userReplays.push(newResponse);
+    let replayArr = [...workRequest.userReplays, newResponse];
+    workRequest.userReplays = replayArr;
+    await workRequest.save();
     return res
       .status(200)
       .json({ message: "User Replay added successfully", data: workRequest });
@@ -207,7 +217,6 @@ const workRequestUserReplay = async (req, res) => {
   }
 };
 
-
 module.exports = {
   createWorkRequest,
   getAllWorkRequest,
@@ -217,5 +226,5 @@ module.exports = {
   makeWorkRequestCompleted,
   makeWorkRequestCancelled,
   workRequestFreelancerResponse,
-  workRequestUserReplay
+  workRequestUserReplay,
 };

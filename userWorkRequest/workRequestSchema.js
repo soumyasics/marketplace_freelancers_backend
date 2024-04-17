@@ -7,6 +7,10 @@ const workRequestSchema = new Schema(
       required: true,
       ref: "users",
     },
+    deadline: {
+      type: Date,
+      required: true,
+    },
     title: {
       type: String,
       required: true,
