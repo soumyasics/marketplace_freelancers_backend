@@ -3,13 +3,22 @@ const WorkRequestModel = require("./workRequestSchema");
 const createWorkRequest = async (req, res) => {
   try {
     const { userId, title, description, category, budget } = req.body;
-    if (!userId || !title || !description || !category || !budget) {
+    if (!userId || !title || !description || !category || !budget || !deadline) {
       return res.status(401).json({ message: "All fields are required" });
+    }
+
+    if (deadline < Date.now()) {
+      return res.status(401).json({ message: "Deadline cannot be in the past" });
+    }
+
+    if (budget <= 0) {
+      return res.status(401).json({ message: "Budget cannot be negative or zero" });
     }
 
     const workRequest = new WorkRequestModel({
       userId,
       title,
+      deadline,
       description,
       category,
       budget,
