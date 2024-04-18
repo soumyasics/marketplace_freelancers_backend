@@ -11,31 +11,31 @@ const schema = new Schema(
       type: Date,
       required: true,
     },
-   workid: {
-    type: Schema.Types.ObjectId,
-    required: true,
-    ref: "workRequest",
+    workId: {
+      type: Schema.Types.ObjectId,
+      required: true,
+      ref: "workRequest",
     },
     freelancerId: {
-        type: Schema.Types.ObjectId,
-        required: true,
-        ref: "freelancers",
-      },
-      accHolderName:{
-        type:String,
-        required: true,
-      },
-      cardNumber:{
-        type:Number,
-        required: true,
-      },
-      date:{
-        type:Date,
-        default:new Date()
-      }
-
-}
+      type: Schema.Types.ObjectId,
+      required: true,
+      ref: "freelancers",
+    },
+    accHolderName: {
+      type: String,
+      required: true,
+    },
+    cardNumber: {
+      type: String,
+      required: true,
+    },
+    date: {
+      type: Date,
+      default: new Date(),
+    },
+  },
+  { timestamps: true }
 );
 
-const WorkRequestModel = mongoose.model("payments", schema);
-module.exports = WorkRequestModel;
+const PaymentModel = mongoose.model("payments", schema);
+module.exports = PaymentModel;

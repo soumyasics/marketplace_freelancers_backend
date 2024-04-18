@@ -52,7 +52,8 @@ router.post("/workRequestUserReplay/:id", workRequest.workRequestUserReplay);
 
 //payments
 router.post('/addPayment',Payments.addPayment)
-router.post('/viewPaymentById/:paymentId',Payments.viewPayment)
+router.get('/viewAllPayments',Payments.viewAllPayments)
+router.get('/viewPaymentById/:id',Payments.viewPayment)
 
 router.all("/*", (req, res) => {
   res.status(400).send({ message: "Please check api routes" });
